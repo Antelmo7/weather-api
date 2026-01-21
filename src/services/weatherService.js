@@ -36,7 +36,12 @@ export async function getCachedWeather(city) {
 
 export async function saveWeatherToCache(city, data) {
   try {
-    await client.set(city, JSON.stringify(data));
+    await client.set(city, JSON.stringify(data), {
+      expiration: {
+        type: "EX",
+        value: 6 * 60 * 60, // expire in 6 hours
+      }
+    });
     console.log(`${city} weather stored on redis cache`);
   } catch (error) {
     console.log(error);
