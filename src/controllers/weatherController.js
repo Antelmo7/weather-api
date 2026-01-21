@@ -7,12 +7,14 @@ export async function getWeatherCity(req, res) {
     const cache = await weatherService.getCachedWeather(city);
     if (!cache) {
       const data = await weatherService.getWeatherCity(city);
-      await weatherService.saveWeatherToCache(city, data);
 
       return res.status(200).json(data);
+    } else {
+      res.status(200).json(cache);
     }
-    res.status(200).json(cache);
   } catch (error) {
-    console.log(error);
+    res.status(500).json({
+      error: error.message
+    });
   }
 }

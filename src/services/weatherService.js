@@ -13,37 +13,29 @@ client.on('error', err => console.log('Redis Client Error', err));
 await client.connect();
 
 export async function getWeatherCity(city) {
-  try {
-    const response = await fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}/?key=${process.env.WEATHER_API_KEY}`);
+  const response = await fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}/?key=${process.env.WEATHER_API_KEY}`);
+  if (response.status === 400) throw new Error('City not found');
+  if (response.ok) {
     const data = await response.json();
 
+    await saveWeatherToCache(city, data);
     return data;
-  } catch (error) {
-    console.log(error);
   }
 }
 
 export async function getCachedWeather(city) {
-  try {
-    const response = await client.get(city);
-    const data = JSON.parse(response);
+  const response = await client.get(city);
+  const data = JSON.parse(response);
 
-    return data;
-  } catch (error) {
-    console.log(error);
-  }
+  return data;
 }
 
 export async function saveWeatherToCache(city, data) {
-  try {
-    await client.set(city, JSON.stringify(data), {
-      expiration: {
-        type: "EX", // time in seconds
-        value: 6 * 60 * 60, // expire in 6 hours
-      }
-    });
-    console.log(`${city} weather stored on redis cache`);
-  } catch (error) {
-    console.log(error);
-  }
+  await client.set(city, JSON.stringify(data), {
+    expiration: {
+      type: "EX", // time in seconds
+      value: 6 * 60 * 60, // expire in 6 hours
+    }
+  });
+  console.log(`${city} weather stored on redis cache`);
 }
