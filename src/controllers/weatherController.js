@@ -4,9 +4,15 @@ export async function getWeatherCity(req, res) {
   try {
     const { city } = req.params;
 
-    const data = await weatherService.getWeatherCity(city);
-    res.status(200).json(data);
+    const cache = await weatherService.getCachedWeather(city);
+    if (!cache) {
+      const data = await weatherService.getWeatherCity(city);
+      await weatherService.saveWeatherToCache(city, data);
+
+      return res.status(200).json(data);
+    }
+    res.status(200).json(cache);
   } catch (error) {
-    console.log('Error fetching weather');
+    console.log(error);
   }
 }
