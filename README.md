@@ -22,6 +22,7 @@ This API allows the user to fetch weather data from a specific city, using Visua
 
 ## Explanation
 **Environment Variables**
+
 We save the environment variables inside an .env file
 
 ```env
