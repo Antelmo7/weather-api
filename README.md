@@ -60,7 +60,7 @@ app.use(limiter);
 
 **Redis**
 
-To connect to redis you have to install the 'redis' client for node whit 'npm install redis', then create a client a set the configuration with the environment variables, and connect the client.
+To connect to redis you have to install the 'redis' client for node with 'npm install redis', then create a client a set the configuration with the environment variables, and connect the client.
 
 ```javascript
 import { createClient } from "redis";
