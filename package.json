@@ -1,0 +1,27 @@
+{
+  "name": "weather-api",
+  "version": "1.0.0",
+  "description": "Weather API to practice 3rd party APIs, caching and environment variables.",
+  "homepage": "https://github.com/Antelmo7/weather-api#readme",
+  "bugs": {
+    "url": "https://github.com/Antelmo7/weather-api/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Antelmo7/weather-api.git"
+  },
+  "license": "MIT",
+  "author": "Antelmo Verdugo <antelmoverdugo@gmail.com>",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./src/server.js",
+    "dev": "node --env-file .env --watch ./src/server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.2.1",
+    "express-rate-limit": "^8.2.1"
+  }
+}
