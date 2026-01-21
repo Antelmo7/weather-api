@@ -38,7 +38,7 @@ export async function saveWeatherToCache(city, data) {
   try {
     await client.set(city, JSON.stringify(data), {
       expiration: {
-        type: "EX",
+        type: "EX", // time in seconds
         value: 6 * 60 * 60, // expire in 6 hours
       }
     });
